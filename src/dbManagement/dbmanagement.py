@@ -37,9 +37,6 @@ class connection:
         #                 description text
         #                )""")
 
-    def selectAll(self):
-        self.c.execute(f"""SELECT * FROM {self.tableName}""")
-
     def insertInto(self, *inputs):
         """Inserts a new row into the database
         Args:
@@ -57,7 +54,8 @@ class connection:
         self.c.execute(f"""DELETE FROM {self.tableName}""")
         ...
 
-    def fetchAll(self):
+    def fetchAll(self) -> str:
+        self.c.execute(f"""SELECT * FROM {self.tableName}""")
         return self.c.fetchall()
 
     def closeConn(self):

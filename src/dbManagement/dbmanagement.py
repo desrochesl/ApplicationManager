@@ -45,11 +45,13 @@ class connection:
         Args:
             *inputs (Tuple): List of values to add to the database
         """
-        placeholders = ", ".join(["?"] * len(inputs))
-
-        query = f"INSERT INTO {self.tableName} (companyName, contact, position) VALUES ({placeholders})"
-
-        self.c.execute(query, inputs)
+        placeholder = {
+            "companyName": inputs[0],
+            "contact": inputs[1],
+            "position": inputs[2],
+        }
+        query = f"INSERT INTO {self.tableName} (companyName, contact, position) VALUES (:companyName, :contact, :position)"
+        self.c.execute(query, placeholder)
 
     def deleteAll(self):
         self.c.execute(f"""DELETE FROM {self.tableName}""")
@@ -69,7 +71,7 @@ if __name__ == "__main__":
     a: connection = connection("applications")
 
     # Fresh table
-    a.deleteAll()
+    # a.deleteAll()
 
     # Insert test values into table
     a.insertInto("a", "b", "c")

@@ -9,6 +9,8 @@ class connection:
         self.c: Cursor = self.conn.cursor()
         self.tableName: str = tableName
 
+        self.createTable()
+
     def createTable(self):
         self.c.execute(f"""CREATE TABLE IF NOT EXISTS {self.tableName} (
                          companyName text,

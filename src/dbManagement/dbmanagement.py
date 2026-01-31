@@ -3,7 +3,6 @@ from sqlite3 import Connection
 from sqlite3 import Cursor
 
 
-
 class connection:
     """
     Connection:
@@ -11,6 +10,7 @@ class connection:
     Args:
       tableName (str): Name for a table.
     """
+
     def __init__(self, tableName: str):
         self.conn: Connection = sql.connect(f"{tableName}.db")
         self.c: Cursor = self.conn.cursor()
@@ -43,7 +43,7 @@ class connection:
         """Inserts a new row into the database
         Args:
             *inputs (Tuple): List of values to add to the database
-            """
+        """
         placeholders = ", ".join(["?"] * len(inputs))
 
         query = f"INSERT INTO {self.tableName} VALUES ({placeholders})"
@@ -64,20 +64,26 @@ class connection:
 
 
 if __name__ == "__main__":
+    # Create a connection
     a: connection = connection("applications")
 
+    # Fresh table
     a.deleteAll()
 
+    # Insert test values into table
     a.insertInto("a", "b", "c")
 
     a.insertInto("Apple", "My Mom", "Nerd")
 
     a.insertInto("Google", "My Mom", "Senior Engineer")
 
+    # Selects rows to output
     a.selectAll()
 
+    # Outputs selected rows
     print(a.fetchAll())
 
+    # commit and close the connection
     a.closeConn()
 
     ...

@@ -3,7 +3,14 @@ from sqlite3 import Connection
 from sqlite3 import Cursor
 
 
+
 class connection:
+    """
+    Connection:
+        creates a connection to a database using SQLite.
+    Args:
+      tableName (str): Name for a table.
+    """
     def __init__(self, tableName: str):
         self.conn: Connection = sql.connect(f"{tableName}.db")
         self.c: Cursor = self.conn.cursor()
@@ -33,6 +40,10 @@ class connection:
         self.c.execute(f"""SELECT * FROM {self.tableName}""")
 
     def insertInto(self, *inputs):
+        """Inserts a new row into the database
+        Args:
+            *inputs (Tuple): List of values to add to the database
+            """
         placeholders = ", ".join(["?"] * len(inputs))
 
         query = f"INSERT INTO {self.tableName} VALUES ({placeholders})"
@@ -54,8 +65,6 @@ class connection:
 
 if __name__ == "__main__":
     a: connection = connection("applications")
-
-    a.createTable()
 
     a.deleteAll()
 

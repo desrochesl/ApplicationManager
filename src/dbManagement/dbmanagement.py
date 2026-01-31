@@ -20,6 +20,7 @@ class connection:
 
     def createTable(self):
         self.c.execute(f"""CREATE TABLE IF NOT EXISTS {self.tableName} (
+                         companyID INTEGER PRIMARY KEY AUTOINCREMENT,
                          companyName text,
                          contact text,
                          position text)""")
@@ -46,7 +47,7 @@ class connection:
         """
         placeholders = ", ".join(["?"] * len(inputs))
 
-        query = f"INSERT INTO {self.tableName} VALUES ({placeholders})"
+        query = f"INSERT INTO {self.tableName} (companyName, contact, position) VALUES ({placeholders})"
 
         self.c.execute(query, inputs)
 

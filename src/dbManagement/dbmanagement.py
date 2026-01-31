@@ -2,7 +2,6 @@ import sqlite3 as sql
 from sqlite3 import Connection, Cursor, Error
 
 
-
 class DBManager:
     """
     Connection:
@@ -12,7 +11,7 @@ class DBManager:
     """
 
     def __init__(self, tableName: str):
-        self.db_name: str = f'{tableName}.db'
+        self.db_name: str = f"{tableName}.db"
         self.tableName: str = tableName
         self._conn: Connection = None
         self._c: Cursor = None
@@ -33,10 +32,10 @@ class DBManager:
     def create_table(self):
         query = f"""CREATE TABLE IF NOT EXISTS {self.tableName} (
                          companyID INTEGER PRIMARY KEY AUTOINCREMENT,
-                         companyName text,
-                         contact text,
-                         position text)"""
-        
+                         companyName VARCHAR(255) NULL,
+                         contact VARCHAR(255) NULL,
+                         position VARCHAR(255) NULL)"""
+
         self._c.execute(query)
 
         # self.c.execute(f"""CREATE TABLE IF NOT EXISTS {self.tableName} (
@@ -51,14 +50,14 @@ class DBManager:
         #                 description text
         #                )""")
 
-    def insert_into(self, company:str, contact: str, position:str):
+    def insert_into(self, company: str, contact: str, position: str):
         """Inserts a new row into the database
         Args:
             *inputs (Tuple): List of values to add to the database
         """
 
         query = f"INSERT INTO {self.tableName} (companyName, contact, position) VALUES (?, ?, ?)"
-        try: 
+        try:
             self._c.execute(query, (company, contact, position))
         except Error as e:
             print(f"Error inserting data: {e}")
@@ -74,8 +73,7 @@ class DBManager:
 
 
 if __name__ == "__main__":
-    # Create a connection
-
+    # Example of using the class
     with DBManager("applications") as db:
         db.create_table()
         db.insert_into("Google", "Sundar", "CEO")

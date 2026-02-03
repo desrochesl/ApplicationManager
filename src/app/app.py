@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from pandas import DataFrame
+from dbManagement.dbmanagement import DBManager
 
 # TODO: 
 # '''
@@ -21,10 +22,18 @@ from pandas import DataFrame
 
 # '''
 
-def layout(df: DataFrame):
+def createDB():
+     DB = DBManager("applications")
+     DB.create_table()
+     return DB
+
+
+
+def layout(df: DataFrame, DB: DBManager):
     st.title("Job Search Application Manager", text_alignment="center")
     # st.subheader("") # Not sure what I want this for yet
-    # st.file_uploader() # Needs fixing
+    # file = st.file_uploader() # Needs fixing
+    # df = pd.read_sql("""select * from applications""", con=DB._conn)
 
     # Make two colums and put both buttons on the same line
     # st.download_button("Download to CSV")

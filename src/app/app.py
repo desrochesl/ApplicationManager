@@ -1,77 +1,34 @@
 import streamlit as st
 import pandas as pd
 from pandas import DataFrame
-from dbManagement.dbmanagement import DBManager
 
-# TODO: 
-# '''
-# Formatting:
-# Title
-# DF
-# Load from/to .db or .csv
-    
-# Button for uploading to df
-#     Switch statement to handle if it is a .csv or .db or else
-
-# Ways to filter Data:
-#     Select a column and user inputs data they want to filter by
-
-# Social Links
-
-# Button to save changes
-
-# '''
-
-def createDB():
-     DB = DBManager("applications")
-     DB.create_table()
-     return DB
+def sidebar(df: DataFrame):
+    sidebarInputs = [''] * len(df.columns)
+    sidebarStatements = [i for i in df.columns]
+    with st.sidebar:
+        for i in range(len(df.columns)):
+            sidebarInputs[i] = st.chat_input(sidebarStatements[i])
+        reset = st.button("Reset Filters")
+    return [sidebarInputs, sidebarStatements]
 
 
-
-def layout(df: DataFrame, DB: DBManager):
+def layout():
+    st.set_page_config(layout="wide")
     st.title("Job Search Application Manager", text_alignment="center")
     # st.subheader("") # Not sure what I want this for yet
-    # file = st.file_uploader() # Needs fixing
-    # df = pd.read_sql("""select * from applications""", con=DB._conn)
+    df = pd.read_csv("applications.csv")
 
-    # Make two colums and put both buttons on the same line
-    # st.download_button("Download to CSV")
-    # st.download_button("Download to DB")
 
-    original = df
+    # sidebar()
 
-    
-    with st.sidebar:
-        x = st.chat_input("Test")
-        reset = st.button("Reset Filters")
-    if x:
-        df = df[df["command"] == x]
-
-    
-
-    editedData = st.data_editor(df)
+    editedDF = st.data_editor(df, num_rows="dynamic")
+    csv = editedDF.to_csv()
     saveChanges = st.button("Save changes")
-
-    if saveChanges:
-            print(editedData)
-            df = editedData
-            ...
-
-    if reset:
-        ...
-        
+    st.download_button(label="Download File as CSV", data=csv, file_name="applications.csv", mime="text/csv")
 
 
-df = pd.DataFrame(
-    [
-        {"command": "st.dataframe", "rating": 4, "is_widget": False},
-        {"command": "st.data_editor", "rating": 5, "is_widget": True},
-        {"command": "st.table", "rating": 3, "is_widget": False},
-        {"command": "st.metric", "rating": 5, "is_widget": True},
-    ]
-)
+    # Boolean Checks
 
-layout(df)
+    # End Boolean Checks
 
-
+layout()

@@ -79,4 +79,4 @@ if __name__ == "__main__":
         db.insert_into("Google", "Sundar", "CEO")
         print(db.fetch_all())
 
-    ...
+

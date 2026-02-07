@@ -15,20 +15,13 @@ def sidebar(df: DataFrame):
 def layout():
     st.set_page_config(layout="wide")
     st.title("Job Search Application Manager", text_alignment="center")
-    # st.subheader("") # Not sure what I want this for yet
+
     df = pd.read_csv("applications.csv")
-
-
-    # sidebar()
 
     editedDF = st.data_editor(df, num_rows="dynamic")
     csv = editedDF.to_csv()
 
     st.download_button(label="Download File as CSV", data=csv, file_name="applications.csv", mime="text/csv")
 
-
-    # Boolean Checks
-
-    # End Boolean Checks
 
 layout()
